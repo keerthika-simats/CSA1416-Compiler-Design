@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <ctype.h>
+
+char production[10][20];
+int n;
+
+void trailing(char c)
+{
+    int i, j;
+
+    printf("TRAILING(%c) = { ", c);
+
+    for (i = 0; i < n; i++)
+    {
+        if (production[i][0] == c)
+        {
+            for (j = 2; production[i][j] != '\0'; j++);
+
+            j--;
+
+            if (!isupper(production[i][j]))
+                printf("%c ", production[i][j]);
+        }
+    }
+
+    printf("}\n");
+}
+
+int main()
+{
+    int i;
+    char c;
+
+    printf("Enter number of productions: ");
+    scanf("%d", &n);
+
+    printf("Enter productions (Example: E=E+T):\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%s", production[i]);
+
+    printf("Enter non-terminal: ");
+    scanf(" %c", &c);
+
+    trailing(c);
+
+    return 0;
+}
