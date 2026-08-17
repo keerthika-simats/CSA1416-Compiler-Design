@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <ctype.h>
+
+char p[10][10];
+int n;
+
+void add(char r[], char c)
+{
+    int i;
+    for(i = 0; r[i] != '\0'; i++)
+        if(r[i] == c) return;
+
+    r[i] = c;
+    r[i + 1] = '\0';
+}
+
+void FIRST(char r[], char c)
+{
+    int i, j, k;
+    char temp[20];
+
+    r[0] = '\0';
+
+    // Terminal
+    if(!isupper(c))
+    {
+        add(r, c);
+        return;
+    }
+
+    for(i = 0; i < n; i++)
+    {
+        if(p[i][0] == c)
+        {
+            // Epsilon
+            if(p[i][2] == '$')
+                add(r, '$');
+            else
+            {
+                j = 2;
+
+                while(p[i][j] != '\0')
+                {
+                    int eps = 0;
+
+                    FIRST(temp, p[i][j]);
+
+                    for(k = 0; temp[k] != '\0'; k++)
+                        add(r, temp[k]);
+
+                    for(k = 0; temp[k] != '\0'; k++)
+                        if(temp[k] == '$')
+                            eps = 1;
+
+                    if(!eps)
+                        break;
+
+                    j++;
+                }
+            }
+        }
+    }
+}
+
+int main()
+{
+    int i;
+    char c, result[20];
+
+    printf("Enter number of productions: ");
+    scanf("%d", &n);
+
+    for(i = 0; i < n; i++)
+    {
+        printf("Enter production %d: ", i + 1);
+        scanf("%s", p[i]);
+    }
+
+    do
+    {
+        printf("\nEnter symbol: ");
+        scanf(" %c", &c);
+
+        FIRST(result, c);
+
+        printf("FIRST(%c) = { ", c);
+
+        for(i = 0; result[i] != '\0'; i++)
+            printf("%c ", result[i]);
+
+        printf("}\n");
+
+        printf("Continue? (y/n): ");
+        scanf(" %c", &c);
+
+    } while(c == 'y' || c == 'Y');
+
+    return 0;
+}
