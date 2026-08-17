@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+int main()
+{
+    int n, i;
+    char a[50][20];
+
+    printf("Enter number of intermediate codes: ");
+    scanf("%d", &n);
+
+    for(i = 0; i < n; i++)
+    {
+        printf("Enter 3-address code %d: ", i + 1);
+        scanf("%s", a[i]);
+    }
+
+    printf("\nGenerated Code:\n");
+
+    for(i = 0; i < n; i++)
+    {
+        printf("MOV %c, R%d\n", a[i][3], i);
+
+        switch(a[i][4])
+        {
+            case '+':
+                printf("ADD %c, R%d\n", a[i][5], i);
+                break;
+
+            case '-':
+                printf("SUB %c, R%d\n", a[i][5], i);
+                break;
+
+            case '*':
+                printf("MUL %c, R%d\n", a[i][5], i);
+                break;
+
+            case '/':
+                printf("DIV %c, R%d\n", a[i][5], i);
+                break;
+        }
+
+        printf("MOV R%d, %c\n", i, a[i][1]);
+    }
+
+    return 0;
+}
