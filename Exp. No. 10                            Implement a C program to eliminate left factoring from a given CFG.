@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char gram[50], p1[20], p2[20];
+    int i, j = 0, k = 0, pos = 0;
+
+    printf("Enter production (S->): ");
+    scanf("%s", gram);
+
+    // Split production at |
+    for(i = 0; gram[i] != '|'; i++)
+        p1[j++] = gram[i];
+
+    p1[j] = '\0';
+
+    j = 0;
+    for(i = i + 1; gram[i] != '\0'; i++)
+        p2[j++] = gram[i];
+
+    p2[j] = '\0';
+
+    // Find common prefix
+    while(p1[pos] == p2[pos] && p1[pos] != '\0')
+        pos++;
+
+    printf("\nS->");
+
+    for(i = 0; i < pos; i++)
+        printf("%c", p1[i]);
+
+    printf("X");
+
+    printf("\nX->");
+
+    for(i = pos; p1[i] != '\0'; i++)
+        printf("%c", p1[i]);
+
+    printf("|");
+
+    for(i = pos; p2[i] != '\0'; i++)
+        printf("%c", p2[i]);
+
+    printf("\n");
+
+    return 0;
+}
