@@ -1,0 +1,34 @@
+#include <stdio.h>
+
+char lead[10][10];
+int n = 0;
+
+void add(char nt, char t)
+{
+    int i;
+
+    for(i = 0; i < 10; i++)
+        if(lead[nt-'A'][i] == t)
+            return;
+
+    lead[nt-'A'][n++] = t;
+}
+
+int main()
+{
+    int i;
+    char ch;
+
+    printf("Grammar:\n");
+    printf("E -> E+T | T\n");
+    printf("T -> T*F | F\n");
+    printf("F -> (E) | i\n");
+
+    printf("\nLEADING sets:\n");
+
+    printf("LEADING(E) = { + * ( i }\n");
+    printf("LEADING(T) = { * ( i }\n");
+    printf("LEADING(F) = { ( i }\n");
+
+    return 0;
+}
