@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char expr[100], op;
+    char temp[10];
+    int i, t = 1;
+
+    printf("Enter expression: ");
+    scanf("%s", expr);
+
+    printf("\nThree Address Code:\n");
+
+    // Assume expression format: a=b+c-d
+    printf("t%d = %c %c %c\n", t, expr[2], expr[3], expr[4]);
+
+    for(i = 5; expr[i] != '\0'; i += 2)
+    {
+        op = expr[i];
+
+        t++;
+
+        printf("t%d = t%d %c %c\n",
+               t, t-1, op, expr[i+1]);
+    }
+
+    printf("%c = t%d\n", expr[0], t);
+
+    return 0;
+}
