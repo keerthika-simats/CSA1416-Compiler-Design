@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+char grammar[6][10] = {
+    "E=E+T",
+    "E=T",
+    "T=T*F",
+    "T=F",
+    "F=(E)",
+    "F=i"
+};
+
+char leading[3][10];
+int count[3] = {0};
+
+void add(int n, char c)
+{
+    int i;
+
+    for(i = 0; i < count[n]; i++)
+        if(leading[n][i] == c)
+            return;
+
+    leading[n][count[n]++] = c;
+}
+
+int main()
+{
+    int i;
+
+    /* LEADING(F) */
+    add(2, '(');
+    add(2, 'i');
+
+    /* LEADING(T) */
+    add(1, '*');
+    add(1, '(');
+    add(1, 'i');
+
+    /* LEADING(E) */
+    add(0, '+');
+    add(0, '*');
+    add(0, '(');
+    add(0, 'i');
+
+    printf("LEADING SETS\n");
+
+    printf("LEADING(E) = { ");
+    for(i = 0; i < count[0]; i++)
+        printf("%c ", leading[0][i]);
+    printf("}\n");
+
+    printf("LEADING(T) = { ");
+    for(i = 0; i < count[1]; i++)
+        printf("%c ", leading[1][i]);
+    printf("}\n");
+
+    printf("LEADING(F) = { ");
+    for(i = 0; i < count[2]; i++)
+        printf("%c ", leading[2][i]);
+    printf("}\n");
+
+    return 0;
+}
