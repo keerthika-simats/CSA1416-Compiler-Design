@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <string.h>
+
+char stack[50], input[50];
+int top = -1, ip = 0;
+
+void reduce()
+{
+    if(stack[top] == 'a' || stack[top] == 'b')
+    {
+        stack[top] = 'E';
+        printf("\tReduce: E->a/b\n");
+    }
+
+    if(top >= 2)
+    {
+        if(stack[top-2] == 'E' &&
+           (stack[top-1] == '+' || stack[top-1] == '*' ||
+            stack[top-1] == '/') &&
+           stack[top] == 'E')
+        {
+            top -= 2;
+            stack[top] = 'E';
+            printf("\tReduce: E->E op E\n");
+        }
+    }
+}
+
+int main()
+{
+    printf("GRAMMAR:\n");
+    printf("E -> E+E | E-E | E*E | E/E | a | b\n");
+
+    printf("\nEnter input: ");
+    scanf("%s", input);
+
+    printf("\nStack\tInput\tAction\n");
+
+    while(input[ip] != '\0')
+    {
+        stack[++top] = input[ip++];
+        stack[top+1] = '\0';
+
+        printf("$%s\t%s$\tShift %c\n",
+               stack, input + ip, stack[top]);
+
+        reduce();
+    }
+
+    reduce();
+
+    if(top == 0 && stack[0] == 'E')
+        printf("$E\t$\tACCEPT\n");
+    else
+        printf("$%s\t$\tREJECT\n", stack);
+
+    return 0;
+}
