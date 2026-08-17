@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char p[20], A, alpha, beta;
+    int i, n;
+
+    printf("Enter number of productions: ");
+    scanf("%d", &n);
+
+    for(i = 0; i < n; i++)
+    {
+        printf("Enter production (E->E-A|b): ");
+        scanf("%s", p);
+
+        A = p[0];
+
+        if(p[3] == A)
+        {
+            alpha = p[4];
+
+            // Find |
+            int j = 3;
+            while(p[j] != '|' && p[j] != '\0')
+                j++;
+
+            if(p[j] == '|')
+            {
+                beta = p[j + 1];
+
+                printf("\nGrammar without left recursion:\n");
+                printf("%c->%c%c'\n", A, beta, A);
+                printf("%c'->%c%c'|e\n", A, alpha, A);
+            }
+            else
+                printf("Cannot eliminate left recursion.\n");
+        }
+        else
+            printf("%c is not left recursive.\n", A);
+    }
+
+    return 0;
+}
